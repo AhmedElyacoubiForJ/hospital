@@ -39,7 +39,7 @@ public class PatientController {
 
     @GetMapping("/index")
     public String index(Model model,
-                        // assign parameter page from request to variable p
+                        // assign page parameter coming from http request to variable p
                         @RequestParam(name = "page", defaultValue="0") int p,
                         @RequestParam(name = "size", defaultValue="3") int s) {
         // http://localhost:9090/index?page=0&size=4
