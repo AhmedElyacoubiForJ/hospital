@@ -37,24 +37,48 @@ public class PatientController {
 //        return "patients";
 //    }
 
+//    @GetMapping("/index")
+//    public String index(Model model,
+//                        // assign page parameter coming from http request to variable p
+//                        @RequestParam(name = "page", defaultValue="0") int p,
+//                        @RequestParam(name = "size", defaultValue="3") int s) {
+//        // http://localhost:9090/index?page=0&size=4
+//        // http://localhost:9090/index?size=3
+//        Page<Patient> pagePatients = patientRepository
+//                .findAll(PageRequest.of(p, s));
+//        model.addAttribute(
+//                "patients",
+//                pagePatients.getContent()
+//        );
+//        model.addAttribute(
+//                "pages",
+//                new int[pagePatients.getTotalPages()]
+//        );
+//        model.addAttribute("currentPage", p);
+//        return "patients";
+//    }
+
     @GetMapping("/index")
     public String index(Model model,
-                        // assign page parameter coming from http request to variable p
                         @RequestParam(name = "page", defaultValue="0") int p,
-                        @RequestParam(name = "size", defaultValue="3") int s) {
-        // http://localhost:9090/index?page=0&size=4
-        // http://localhost:9090/index?size=3
+                        @RequestParam(name = "size", defaultValue="3") int s,
+                        @RequestParam(name = "keyword", defaultValue = "") String kW) {
         Page<Patient> pagePatients = patientRepository
-                .findAll(PageRequest.of(p, s));
+                .findByNameContains(kW, PageRequest.of(p, s));
+
         model.addAttribute(
                 "patients",
                 pagePatients.getContent()
         );
+
         model.addAttribute(
                 "pages",
                 new int[pagePatients.getTotalPages()]
         );
+
         model.addAttribute("currentPage", p);
+
+        model.addAttribute("keyword", kW);
         return "patients";
     }
 }
